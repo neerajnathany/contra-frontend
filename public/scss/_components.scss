@@ -1,0 +1,204 @@
+.empty{
+	text-align: center;
+	padding: 15vh 0;
+	&-icon{
+		fill: $grey;
+	}
+	&-text{
+		line-height: 1.6em;
+		color: $lighter-white;
+	}
+}
+
+.view{
+    &-box{
+        margin-bottom: 8%;
+    }
+    &-button{
+        display: inline-block;
+        text-decoration: none;
+        overflow: hidden;
+        text-align: center;
+        color: inherit;
+        font-weight: 500;
+        width: 48%;
+		background-color: $grey;
+        border-radius: 0.75*$std-padding;
+		text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8em;
+        padding: 2*$std-padding;
+        vertical-align: middle;
+		&:not(:last-child){
+			margin-right: 4%;
+        }
+        &.true{
+            background-color: $black;
+            color: $cobalt;
+			.view-icon{
+				fill: $cobalt;
+			}
+		}
+		&.false:hover{
+			background-color: $lightest-white;
+		}
+    }
+    &-icon{
+		margin-right: 0.75*$std-padding;
+		vertical-align: bottom;
+	}
+}
+
+.pop{
+    &-box{
+        position: fixed;
+        background-color: rgba(white,0.97);
+        overflow: hidden;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        border-radius: 1.25*$std-padding 1.25*$std-padding 0 0;
+        padding: 1em 1.5em 1em 1em;
+        box-shadow: 2px 4px 18px 0 rgba(0,0,0,0.6);
+        cursor: default;
+        transition: all 0.08s ease-in-out;
+        transform: translate(0, 0);
+        &.inactive{
+            transform: translate(0,100%);
+        }
+    }
+    &-item{
+        display: flex;
+        &-tile{
+            width: 25%;
+            border-radius: $std-padding;
+            border-bottom-left-radius: 4*$std-padding;
+        }
+        &-detail{
+            width: 75%;
+            margin-left: 2*$std-padding;
+            padding: 1px 2px 0 0;
+            h6{
+                margin-bottom: 0.5*$std-padding;
+            }
+        }
+        &-desc{
+            margin-bottom: 2*$std-padding;
+        }
+        &-title{
+            margin-bottom: 1.5*$std-padding;
+            span{
+                @extend %box-tag;
+                position: static;
+                background-color: $grey;
+            }
+        }
+        &-table{
+            td:first-child{
+                font-weight: 100;
+                color: rgba($grey,0.8);
+                padding-right: 2*$std-padding;
+                padding-bottom: 0.75*$std-padding;
+                font-size: 0.95em;
+            }
+            td:not(:first-child){
+                padding-bottom: 0.75*$std-padding;
+                color: $black;
+            }
+            tr:last-child{
+                td{
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+    @media screen and (min-width: 700px) {
+        &-box{
+            border-radius: $std-padding;
+            bottom: 4*$std-padding;
+            right: 4*$std-padding;
+            left: auto;
+            transform: scale(1,1);
+            transform-origin: 100% 100%;
+            &.inactive{
+                transform: scale(0,0);
+            }
+        }
+        &-item{
+            &-tile{
+                width: 7em;
+                border-radius: 0.75*$std-padding;
+            }
+            &-detail{
+                width: auto;
+            }
+        }
+    }
+}
+
+
+.home{
+    padding-top: 16vh;
+    height: 100vh;
+    background-color: $black;
+    text-align: center;
+    box-sizing: inherit;
+    &-header{
+        width: 70%;
+        margin: 0 auto;
+        font-size: 3.5em;
+        font-weight: 800;
+        color: $white;
+        letter-spacing: -4px;
+    }
+    &-name{
+        display: inline-block;
+        font-size: 1.2em;
+        margin-bottom: 3*$std-padding;
+        padding: 2*$std-padding 2.5*$std-padding 1.5*$std-padding;
+        border-radius: 2*$std-padding;
+        background-color: $grey;
+    }
+    &-highlight{
+        color: $cobalt;
+    }
+    &-cta{
+        display: inline-block;
+        background-color: $cobalt;
+        padding: $std-padding 1.9*$std-padding;
+        letter-spacing: -0.5px;
+        color: $white;
+        border: none;
+        text-decoration: none;
+        font-family: inherit;
+        border-radius: 0.75*$std-padding;
+        font-weight: 600;
+        margin-top: 4*$std-padding;
+        font-size: 1.25em;
+        &:hover{
+            background-color: darken($cobalt,7.5%);
+        }
+    }
+    &-ps{
+        width: 60%;
+        margin: 2*$std-padding auto;
+        font-size: 0.8em;
+        line-height: 1.2em;
+        color: $lighta-white;
+    }
+    @media screen and (min-width: 700px) {
+        padding-top: 20vh;
+        &-header{
+            width: 60%;
+            font-size: 5em;
+        }
+        &-name{
+            padding: 3*$std-padding 4*$std-padding 1.5*$std-padding;
+            border-radius: 2.5*$std-padding;
+        }
+        &-ps{
+            width: 20%;
+        }
+    }
+}
