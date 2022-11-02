@@ -10,6 +10,73 @@
 	}
 }
 
+
+.expense{
+    &-tile{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        background-color: $grey;
+        margin-bottom: 1.5*$std-padding;
+        border-radius: $std-padding;
+		padding: 1.5*$std-padding 2*$std-padding;
+        &:hover{
+            background-color: $lightest-white;
+        }
+    }
+    &-details{
+        display: flex;
+        align-items: center;
+    }
+    &-thumb{
+        display: inline-block;
+        padding: $std-padding;
+        width: 6*$std-padding;
+        height: 6*$std-padding;
+        background-color: $white;
+        border-radius: 100%;
+        vertical-align: top;
+        margin-right: 1.5*$std-padding;
+        img{
+            width: 100%;
+        }
+    }
+    &-type{
+        font-size: 0.72em;
+        display: inline-block;
+        text-transform: uppercase;
+        color: $light-white;
+        margin-bottom: 0.5*$std-padding;
+        background-color: $black;
+        letter-spacing: 1px;
+		padding: 0.6*$std-padding 0.8*$std-padding;
+        border-radius: 0.5*$std-padding;
+    }
+    &-entity{
+        display: block;
+        text-transform: capitalize;
+        font-size: 1.1em;
+    }
+    &-amount{
+        display: block;
+        color: $lighter-white;
+        font-size: 0.9em;
+        margin-top: 0.75*$std-padding;
+    }
+    &-status{
+        width: 3.5*$std-padding;
+        height: 3.5*$std-padding;
+        border-radius: 100%;
+        &.false{
+            background-color: $yellow;
+        }
+        &.true{
+            background-color: $cobalt;
+        }
+    }
+}
+
 .view{
     &-box{
         margin-bottom: 8%;

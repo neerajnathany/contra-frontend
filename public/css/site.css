@@ -432,6 +432,65 @@ textarea {
     line-height: 1.6em;
     color: #ffffff66; }
 
+.expense-tile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #383838;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 12px 16px; }
+  .expense-tile:hover {
+    background-color: #ffffff33; }
+
+.expense-details {
+  display: flex;
+  align-items: center; }
+
+.expense-thumb {
+  display: inline-block;
+  padding: 8px;
+  width: 48px;
+  height: 48px;
+  background-color: #fff;
+  border-radius: 100%;
+  vertical-align: top;
+  margin-right: 12px; }
+  .expense-thumb img {
+    width: 100%; }
+
+.expense-type {
+  font-size: 0.72em;
+  display: inline-block;
+  text-transform: uppercase;
+  color: #ffffffbb;
+  margin-bottom: 4px;
+  background-color: #000;
+  letter-spacing: 1px;
+  padding: 4.8px 6.4px;
+  border-radius: 4px; }
+
+.expense-entity {
+  display: block;
+  text-transform: capitalize;
+  font-size: 1.1em; }
+
+.expense-amount {
+  display: block;
+  color: #ffffff66;
+  font-size: 0.9em;
+  margin-top: 6px; }
+
+.expense-status {
+  width: 28px;
+  height: 28px;
+  border-radius: 100%; }
+  .expense-status.false {
+    background-color: #ffae00; }
+  .expense-status.true {
+    background-color: #2190ff; }
+
 .view-box {
   margin-bottom: 8%; }
 
@@ -592,6 +651,7 @@ body {
 .header {
   background-color: #000;
   padding: 14px 20px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between; }
@@ -643,10 +703,83 @@ body {
       .main-head {
         margin-bottom: 4%; }
       .main-content {
-        display: inline-block;
-        width: 67%;
+        width: 50%;
         vertical-align: top;
-        margin-right: 2.75%; } }
+        margin: 0 auto; } }
+
+.section-left {
+  display: inline-block;
+  width: calc(0.47*50vw);
+  margin-right: calc(0.06*50vw);
+  vertical-align: top; }
+  .section-left .react-datepicker {
+    transform: scale(1.5);
+    transform-origin: 0 0;
+    font-family: inherit !important;
+    background-color: #000 !important;
+    border: none !important;
+    color: #ffffff99 !important; }
+    .section-left .react-datepicker__triangle {
+      display: none; }
+    .section-left .react-datepicker__header {
+      background-color: #000 !important;
+      border-bottom: 1px solid #ffffff33 !important; }
+    .section-left .react-datepicker__day-name {
+      color: #ffae00; }
+    .section-left .react-datepicker__day {
+      box-sizing: border-box;
+      color: #ffffff99;
+      font-weight: 200 !important; }
+      .section-left .react-datepicker__day--today {
+        color: #fff;
+        font-weight: 700 !important; }
+      .section-left .react-datepicker__day--selected {
+        background-color: #ffae00;
+        border-radius: 4px;
+        color: #fff; }
+        .section-left .react-datepicker__day--selected:hover {
+          background-color: #ffae00 !important; }
+      .section-left .react-datepicker__day--keyboard-selected {
+        background-color: transparent;
+        outline: 1px solid #ffae00;
+        border-radius: 4px; }
+      .section-left .react-datepicker__day:hover {
+        background-color: #ffffff33;
+        border-radius: 4px; }
+    .section-left .react-datepicker__current-month {
+      margin: 8px 0;
+      color: #fff;
+      font-size: 1em; }
+    .section-left .react-datepicker__navigation {
+      top: 6px; }
+      .section-left .react-datepicker__navigation-icon {
+        font-size: 16px; }
+        .section-left .react-datepicker__navigation-icon::before {
+          height: 6px;
+          width: 6px; }
+    .section-left .react-datepicker-popper {
+      position: static !important;
+      transform: none !important;
+      padding-top: 0 !important;
+      height: calc(0.47*50vw); }
+    .section-left .react-datepicker-wrapper {
+      display: none !important; }
+
+.section-right {
+  display: inline-block;
+  width: calc(0.47*50vw);
+  vertical-align: top;
+  padding-top: 8px; }
+
+.section-title {
+  font-size: 1.3em;
+  margin-bottom: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ffae00;
+  color: #fff; }
+  .section-title span {
+    color: #ffffff66;
+    font-weight: 100; }
 
 .panel {
   display: block;
