@@ -2,13 +2,14 @@ import React, {useState, Component} from 'react';
 import DatePicker from "react-datepicker";
 import axios from 'axios';
 import Link from '../components/Link';
+import Expense from '../components/Expense';
 import { types, type_thumbs } from '../constants';
 
 import "react-datepicker/dist/react-datepicker.css";
 
 class Dashboard extends Component {
 
-    state = {expenses:[], startDate:new Date(), entity: '', type:undefined}
+    state = {expenses:[], startDate:new Date(), entity: '', type:'', amount:'', check:false}
 
     componentDidMount(){
         this.getExpenses();
@@ -31,6 +32,14 @@ class Dashboard extends Component {
         this.setState({type:e.target.value});
     }
 
+    amountChange = (e) => {
+        this.setState({amount:e.target.value});
+    }
+
+    checkChange = () => {
+        this.setState({check:!this.state.check});
+    }
+
     statusChange = (identity) => {
         axios.patch('http://localhost:5000/status/'+identity,{})
         .then(response => {
@@ -41,13 +50,13 @@ class Dashboard extends Component {
     
     onSubmit = (e) => {
         e.preventDefault();
-        const expense = {date: this.state.startDate, entity:this.state.entity, type:this.state.type};
+        const expense = {date: this.state.startDate, entity:this.state.entity, type:this.state.type, amount:this.state.amount, status:this.state.check};
         axios.post('http://localhost:5000/', expense)
             .then(response => {
                 console.log(response.data);
             })
             .catch(error => console.log(error));
-        this.setState({entity:''});        
+        this.setState({entity:'', type:'', amount:'', check:false});
         this.getExpenses();
     }
 
@@ -62,16 +71,19 @@ class Dashboard extends Component {
                     <div className="main-content">
                         <aside className="section-left">
                             <DatePicker selected={this.state.startDate} onChange={(date) => this.dateChange(date)} open/>
+                            <Expense />
                             <form onSubmit={this.onSubmit}>
-                                <select value={this.state.type} defaultValue='prompt' name="type" onChange={this.typeChange} required>
-                                    <option value='prompt' disabled>Select expense type</option>
+                                <select value={this.state.type} defaultValue='' name="type" onChange={this.typeChange} required>
+                                    <option value='' disabled>Expense type</option>
                                     <option value='0'>Eat-out</option>
                                     <option value='1'>Takeaway</option>
                                     <option value='2'>Travel</option>
                                     <option value='3'>Hotel stay</option>
                                     <option value='4'>Miscellaneous</option>
                                 </select>
-                                <input type="text" name="entity" placeholder="Enter expense entity" autoFocus value={this.state.entity} onChange={this.entityChange}/>
+                                <input type="text" name="entity" placeholder="Expense name" autoFocus value={this.state.entity} onChange={this.entityChange}/>
+                                <input type="number" name="amount" placeholder="Expense amount" value={this.state.amount} onChange={this.amountChange}/>
+                                <label><input type="checkbox" checked={this.state.check} onChange={this.checkChange}/>Filed for reimbursement</label>
                                 <button type="submit" name="submit" value="regular">Submit</button>
                             </form>
                         </aside>
