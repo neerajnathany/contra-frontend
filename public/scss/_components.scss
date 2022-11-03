@@ -17,12 +17,22 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        background-color: $grey;
         margin-bottom: 1.5*$std-padding;
         border-radius: $std-padding;
 		padding: 1.5*$std-padding 2*$std-padding;
-        &:hover{
-            background-color: $lightest-white;
+        background-color: darken($grey,5%);
+        &.false{
+            cursor: pointer;
+            &:hover{
+                background-color: $grey;
+            }
+        }
+        &.true{
+            background-color: darken($grey,15%);
+            border-color: 1px solid $black;
+            .expense-details{
+                opacity:0.5;
+            }
         }
     }
     &-details{
@@ -42,17 +52,6 @@
             width: 100%;
         }
     }
-    &-type{
-        font-size: 0.72em;
-        display: inline-block;
-        text-transform: uppercase;
-        color: $light-white;
-        margin-bottom: 0.5*$std-padding;
-        background-color: $black;
-        letter-spacing: 1px;
-		padding: 0.6*$std-padding 0.8*$std-padding;
-        border-radius: 0.5*$std-padding;
-    }
     &-entity{
         display: block;
         text-transform: capitalize;
@@ -65,14 +64,21 @@
         margin-top: 0.75*$std-padding;
     }
     &-status{
-        width: 3.5*$std-padding;
-        height: 3.5*$std-padding;
-        border-radius: 100%;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.05s ease-in-out;
+        padding: 0.5*$std-padding 0.75*$std-padding;
         &.false{
-            background-color: $yellow;
+            background-color: $lightest-white;
+            color: $white;
         }
         &.true{
-            background-color: $cobalt;
+            color:limegreen;
+        }
+        &-action{
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
     }
 }
