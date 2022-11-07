@@ -2,14 +2,15 @@ import React, {useState, Component} from 'react';
 import DatePicker from "react-datepicker";
 import axios from 'axios';
 import Link from '../components/Link';
-import Expense from '../components/Expense';
-import { types, type_thumbs } from '../constants';
+import Expense from '../components/Expense.jsx';
+import ExpenseTile from '../components/ExpenseTile.jsx';
+
 
 import "react-datepicker/dist/react-datepicker.css";
 
 class Dashboard extends Component {
 
-    state = {expenses:[], startDate:new Date(), entity: '', type:'', amount:'', check:false}
+    state = {expenses:[], dates:[], startDate:new Date(), view:true, entity: '', type:'', amount:'', check:false, create:false}
 
     componentDidMount(){
         this.getExpenses();
@@ -18,6 +19,31 @@ class Dashboard extends Component {
     getExpenses = async() => {
         const response = await axios.create({baseURL: 'http://localhost:5000/'}).get('/expenses');
         this.setState({expenses: response.data.expenses});
+        this.getDates();
+    }
+
+    getDates = () => {
+        var freq = {};
+		var dates = this.state.expenses.map(each => {
+			return new Date(each.date);
+		}).sort((a,b) => {
+            return a - b;
+        }).map(v=>{
+            return v.toDateString();
+        })
+		dates.forEach(date => { freq[date] = 0 });
+		var uniques = dates.filter(date => {
+			return ++freq[date] === 1;
+		})
+		this.setState({dates: uniques});
+    }
+
+    viewDate = () => {
+        this.setState({view:true});
+    }
+
+    viewList = () => {
+        this.setState({view:false});
     }
 
     dateChange = (date) => {
@@ -47,6 +73,15 @@ class Dashboard extends Component {
         })
         .catch(error => console.log(error));
     }
+
+    createExpense = () =>{
+        this.setState({create:true});
+    }
+
+    clearCreate = () => {
+        this.setState({create:false});
+        this.getExpenses();
+    }
     
     onSubmit = (e) => {
         e.preventDefault();
@@ -56,8 +91,13 @@ class Dashboard extends Component {
                 console.log(response.data);
             })
             .catch(error => console.log(error));
-        this.setState({entity:'', type:'', amount:'', check:false});
+        this.setState({entity:'', type:'', amount:'', check:false, create:false});
         this.getExpenses();
+    }
+
+    dateString = (e) =>{
+        var dateString = e.toLocaleDateString(undefined,{ weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+        return dateString;
     }
 
     render(){
@@ -65,55 +105,72 @@ class Dashboard extends Component {
             <div className="dashboard">
                 <header className="header">
                     <Link className="header-title" href="/">Contra</Link>
+                    <div className={"toggle "+this.state.view}>
+                        <div className={"toggle-option "+this.state.view} onClick={this.viewDate}><span className="toggle-text">Date</span></div>
+                        <div className={"toggle-option "+!this.state.view} onClick={this.viewList}><span className="toggle-text">List</span></div>
+                        <div className={"toggle-selector "+this.state.view}></div>
+                    </div>
                     <span className="header-user">Neeraj Nathany</span>
                 </header>
                 <main className="main">
                     <div className="main-content">
-                        <aside className="section-left">
-                            <DatePicker selected={this.state.startDate} onChange={(date) => this.dateChange(date)} open/>
-                            <Expense />
-                            <form onSubmit={this.onSubmit}>
-                                <select value={this.state.type} defaultValue='' name="type" onChange={this.typeChange} required>
-                                    <option value='' disabled>Expense type</option>
-                                    <option value='0'>Eat-out</option>
-                                    <option value='1'>Takeaway</option>
-                                    <option value='2'>Travel</option>
-                                    <option value='3'>Hotel stay</option>
-                                    <option value='4'>Miscellaneous</option>
-                                </select>
-                                <input type="text" name="entity" placeholder="Expense name" autoFocus value={this.state.entity} onChange={this.entityChange}/>
-                                <input type="number" name="amount" placeholder="Expense amount" value={this.state.amount} onChange={this.amountChange}/>
-                                <label><input type="checkbox" checked={this.state.check} onChange={this.checkChange}/>Filed for reimbursement</label>
-                                <button type="submit" name="submit" value="regular">Submit</button>
-                            </form>
-                        </aside>
-                        <div className="section-right">
-                            <h5 className="section-title"><span>Expenses on </span>{this.state.startDate.toLocaleDateString(undefined,{ weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</h5>
-                            <ul>
-                                {
-                                    this.state.expenses.filter(i => {
-                                        return new Date(i.date).toDateString() === this.state.startDate.toDateString();
-                                    }).map((e,n)=>{
-                                        return (
-                                            <li key={n} className={"expense-tile "+(e.status)}>
-                                                <div className="expense-details">
-                                                    <div className="expense-thumb">
-                                                        <img src={type_thumbs[types[e.type+1?e.type:4]]} alt="" />
-                                                    </div>
-                                                    <div>
-                                                        <span className="expense-entity">{e.entity}</span>
-                                                        {e.amount&&<span className="expense-amount">₹{e.amount}</span>}
-                                                    </div>
-                                                </div>
-                                                <div className={"expense-status "+(e.status)} onClick={()=> this.statusChange(e._id)}>
-                                                    {/* <img src='https://i.ibb.co/bzgJQTg/accept.png' alt="Done"/> */}
-                                                    <span className='expense-status-action'>{e.status?'Filed':'Filed?'}</span>
-                                                </div>
-                                            </li>)
-                                    })
+                        {this.state.view? <div>
+                            <aside className="section-left">
+                                <DatePicker selected={this.state.startDate} onChange={(date) => this.dateChange(date)} open/>
+                                <button className="create-cta" value="create" onClick={this.createExpense}>Add expense</button>
+                                {this.state.create ? 
+                                <div>
+                                    <div className="pop-layer" onClick={this.clearCreate}></div>
+                                    <Expense 
+                                        onSubmit={this.onSubmit}
+                                        type={this.state.type}
+                                        date={this.dateString(this.state.startDate)}
+                                        typeChange={this.typeChange}
+                                        entity={this.state.entity}
+                                        entityChange={this.entityChange}
+                                        amount={this.state.amount}
+                                        amountChange={this.amountChange}
+                                        check={this.state.check}
+                                        checkChange={this.checkChange}                                
+                                    />
+                                </div>:null}
+                            </aside>
+                            <div className="section-right">
+                                <h5 className="section-title"><span>Expenses on </span>{this.dateString(this.state.startDate)}</h5>
+                                <ul>
+                                    {
+                                        this.state.expenses.filter(i => {
+                                            return new Date(i.date).toDateString() === this.state.startDate.toDateString();
+                                        }).map((e,n)=>{
+                                            return (
+                                                <ExpenseTile expense={e} k={n} view=" regular"statusChange={this.statusChange}/>
+                                                )
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                        </div> :
+                        <div className="section-full">
+                            <h5 className="section-title full">Your Expenses</h5>
+                            {this.state.dates.map((dater,num)=> {
+                                    return (
+                                        <div className="expense-group">
+                                            <h6 className ="expense-group-title">{this.dateString(new Date(dater))}</h6>
+                                            <ul key={num}>
+                                                {this.state.expenses.filter(i=>{
+                                                    return new Date(i.date).toDateString() === dater;
+                                                }).map((e,n)=>{
+                                                    return (
+                                                        <ExpenseTile expense={e} k={n} view=" full" statusChange={this.statusChange}/>
+                                                    )
+                                                })}                                                
+                                            </ul>
+                                        </div>
+                                    )
                                 }
-                            </ul>
-                        </div>
+                                )
+                            }                            
+                        </div>}
                     </div>
                 </main>
             </div>

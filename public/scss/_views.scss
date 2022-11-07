@@ -12,6 +12,9 @@ body{
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	position: sticky;
+	top: 0;
+	z-index: 5;
 	&-title{
 		text-transform: uppercase;
 		letter-spacing: 2px;
@@ -87,10 +90,10 @@ body{
         .react-datepicker{
             transform: scale(1.5);
             transform-origin: 0 0;
-            font-family: inherit !important;
-            background-color: $black !important;
-            border: none !important;
-            color: $lighta-white !important;
+            font-family: inherit;
+            background-color: $black;
+            border: none;
+            color: $lighta-white;
             &__triangle{
                 display: none;
             }
@@ -146,7 +149,8 @@ body{
                 position: static !important;
                 transform: none !important;
                 padding-top: 0 !important;
-                height: calc(0.47*50vw);
+                height: calc(0.47*50vw + #{$std-padding});
+				overflow: auto;
             }
             &-wrapper{
                 display: none !important;
@@ -168,8 +172,21 @@ body{
             color: $lighter-white;
             font-weight: 100;
         }
+		&.full{
+			font-size: 1.7em;
+			font-weight: 700;
+		}
     }
 }
+
+// .customDatePickerWidth,
+// .customDatePickerWidth > div.react-datepicker-wrapper, 
+// .customDatePickerWidth > div.react-datepicker, 
+// .customDatePickerWidth > div > div.react-datepicker__input-container
+// .customDatePickerWidth > div > div.react-datepicker__input-container input {
+//    width: 100%;
+// }
+
 
 .panel{
 	display: block;
