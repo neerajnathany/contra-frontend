@@ -17,7 +17,7 @@ class ExpenseTile extends Component{
                     </div>
                 </div>
                 <div className={"expense-status "+(e.status)} onClick={()=> this.props.statusChange(e._id)}>
-                    <span className='expense-status-action'>{e.status?'Filed':'Unfiled'}</span>
+                    <span className='expense-status-action'>{e.status?'Filed':'Filed?'}</span>
                 </div>
             </li>
         )

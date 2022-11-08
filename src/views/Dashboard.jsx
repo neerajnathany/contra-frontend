@@ -4,13 +4,14 @@ import axios from 'axios';
 import Link from '../components/Link';
 import Expense from '../components/Expense.jsx';
 import ExpenseTile from '../components/ExpenseTile.jsx';
+import Empty from '../components/Empty.jsx';
 
 
 import "react-datepicker/dist/react-datepicker.css";
 
 class Dashboard extends Component {
 
-    state = {expenses:[], dates:[], startDate:new Date(), view:true, entity: '', type:'', amount:'', check:false, create:false}
+    state = {expenses:[], fexpenses:[], dates:[], startDate:new Date(), view:true, statusFilter:false, expiryFilter:false, entity: '', type:'', amount:'', check:false, create:false}
 
     componentDidMount(){
         this.getExpenses();
@@ -19,12 +20,13 @@ class Dashboard extends Component {
     getExpenses = async() => {
         const response = await axios.create({baseURL: 'http://localhost:5000/'}).get('/expenses');
         this.setState({expenses: response.data.expenses});
-        this.getDates();
+        this.setState({ fexpenses: this.state.expenses});
+        this.filterExpenses();
     }
 
     getDates = () => {
         var freq = {};
-		var dates = this.state.expenses.map(each => {
+		var dates = this.state.fexpenses.map(each => {
 			return new Date(each.date);
 		}).sort((a,b) => {
             return a - b;
@@ -82,6 +84,27 @@ class Dashboard extends Component {
         this.setState({create:false});
         this.getExpenses();
     }
+
+    statusFilterChange = () => {
+        this.setState({statusFilter:!this.state.statusFilter},() => {
+            this.filterExpenses();
+        })
+    }
+
+    expiryFilterChange = () => {
+        this.setState({expiryFilter:!this.state.expiryFilter}, ()=> {
+            this.filterExpenses();
+        })
+    }
+
+    filterExpenses = () => {
+        this.setState({fexpenses:this.state.expenses.filter(e=>{
+            return ((this.state.statusFilter? true: e.status === this.state.statusFilter) &&
+            (this.state.expiryFilter ? (new Date().getTime() - new Date(e.date).getTime())/ (1000 * 3600 * 24) >= 53 : true));
+        })},() => {
+            this.getDates();
+        })
+    }
     
     onSubmit = (e) => {
         e.preventDefault();
@@ -112,9 +135,10 @@ class Dashboard extends Component {
                     </div>
                     <span className="header-user">Neeraj Nathany</span>
                 </header>
+                {this.state.view? 
                 <main className="main">
                     <div className="main-content">
-                        {this.state.view? <div>
+                        <div>
                             <aside className="section-left">
                                 <DatePicker selected={this.state.startDate} onChange={(date) => this.dateChange(date)} open/>
                                 <button className="create-cta" value="create" onClick={this.createExpense}>Add expense</button>
@@ -136,7 +160,9 @@ class Dashboard extends Component {
                                 </div>:null}
                             </aside>
                             <div className="section-right">
-                                <h5 className="section-title"><span>Expenses on </span>{this.dateString(this.state.startDate)}</h5>
+                                <div className="section-header">
+                                    <h5 className="section-title"><span>Expenses on </span>{this.dateString(this.state.startDate)}</h5>
+                                </div>
                                 <ul>
                                     {
                                         this.state.expenses.filter(i => {
@@ -149,16 +175,28 @@ class Dashboard extends Component {
                                     }
                                 </ul>
                             </div>
-                        </div> :
+                        </div>
+                    </div>
+                </main> :
+                <main>                    
+                    <div className="section-header full">
+                        <div className="main-content full">
+                            <h5 className="section-title full">My Expenses</h5>
+                            <div>
+                                <div className={"panel-button "+!this.state.statusFilter} onClick={this.statusFilterChange}><span>Unfiled</span></div>
+                                <div className={"panel-button "+this.state.expiryFilter} onClick={this.expiryFilterChange}><span>Expiring soon</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="main-content">
                         <div className="section-full">
-                            <h5 className="section-title full">Your Expenses</h5>
-                            {this.state.dates.map((dater,num)=> {
-                                    return (
+                            {this.state.fexpenses.length ? (this.state.dates.map((dater,num)=> {
+                                    return (                                         
                                         <div className="expense-group">
                                             <h6 className ="expense-group-title">{this.dateString(new Date(dater))}</h6>
                                             <ul key={num}>
-                                                {this.state.expenses.filter(i=>{
-                                                    return new Date(i.date).toDateString() === dater;
+                                                {this.state.fexpenses.filter(i=>{
+                                                    return ((new Date(i.date).toDateString() === dater));
                                                 }).map((e,n)=>{
                                                     return (
                                                         <ExpenseTile expense={e} k={n} view=" full" statusChange={this.statusChange}/>
@@ -168,11 +206,11 @@ class Dashboard extends Component {
                                         </div>
                                     )
                                 }
-                                )
+                                )):<Empty />
                             }                            
-                        </div>}
+                        </div>
                     </div>
-                </main>
+                </main>}
             </div>
         )
     }
