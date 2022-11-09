@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {Component} from 'react';
 import DatePicker from "react-datepicker";
 import axios from 'axios';
 import Link from '../components/Link';
@@ -18,7 +18,7 @@ class Dashboard extends Component {
     }
     
     getExpenses = async() => {
-        const response = await axios.create({baseURL: 'http://localhost:5000/'}).get('/expenses');
+        const response = await axios.create({baseURL: 'http://192.168.0.148:5000/'}).get('/expenses');
         this.setState({expenses: response.data.expenses});
         this.setState({ fexpenses: this.state.expenses});
         this.filterExpenses();
@@ -133,6 +133,7 @@ class Dashboard extends Component {
                         <div className={"toggle-option "+!this.state.view} onClick={this.viewList}><span className="toggle-text">List</span></div>
                         <div className={"toggle-selector "+this.state.view}></div>
                     </div>
+                    <span className="header-user mobile">NN</span>
                     <span className="header-user">Neeraj Nathany</span>
                 </header>
                 {this.state.view? 
@@ -141,7 +142,9 @@ class Dashboard extends Component {
                         <div>
                             <aside className="section-left">
                                 <DatePicker selected={this.state.startDate} onChange={(date) => this.dateChange(date)} open/>
-                                <button className="create-cta" value="create" onClick={this.createExpense}>Add expense</button>
+                                <div className="create-cta-cont">
+                                    <button className="create-cta" value="create" onClick={this.createExpense}>Add expense</button>
+                                </div>
                                 {this.state.create ? 
                                 <div>
                                     <div className="pop-layer" onClick={this.clearCreate}></div>

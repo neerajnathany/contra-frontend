@@ -7,7 +7,7 @@ body{
 
 .header{
 	background-color: #000;
-	padding: 1.75*$std-padding 2.5*$std-padding;
+	padding: 1.75*$std-padding 2*$std-padding;
 	height: 6*$std-padding;
 	display: flex;
 	align-items: center;
@@ -20,6 +20,14 @@ body{
 		letter-spacing: 2px;
 		text-decoration: none;
 		color: inherit;
+		font-size: 0.85em;
+	}
+	&-user{
+		font-size: 1em;
+		display: none;
+		&.mobile{
+			display: inline-block;
+		}
 	}
 	&-notif{
 		display: none;
@@ -39,6 +47,16 @@ body{
 	}
 	@media screen and (min-width: 700px) {
 		padding: 0.75*$std-padding 2.5*$std-padding;
+		&-title{
+			font-size: 1em;
+		}
+		&-user{
+			display: inline-block;
+			font-size: 1em;
+			&.mobile{
+				display: none;
+			}
+		}
 		&-notif{
 			display: block;
 		}
@@ -47,9 +65,11 @@ body{
 
 .main{
 	width: 100%;
-	padding: 4*$std-padding;
+	padding: 3*$std-padding 0;
 	box-sizing: inherit;
 	&-content{
+		width: 88%;
+		margin: 0 auto;
 		display: block;
 		&.full{
 			display: flex;
@@ -81,7 +101,6 @@ body{
 		&-content{
 			width: 50%;
 			vertical-align: top;
-			margin: 0 auto;
 		}
 	}
 }
@@ -89,11 +108,10 @@ body{
 .section{
     &-left{
         display: inline-block;
-        width: calc(0.47*50vw);
-        margin-right: calc(0.06*50vw);
+        width: 100%;
         vertical-align: top;
         .react-datepicker{
-            transform: scale(1.5);
+            transform: scale(1.7);
             transform-origin: 0 0;
             font-family: inherit;
             background-color: $black;
@@ -154,7 +172,7 @@ body{
                 position: static !important;
                 transform: none !important;
                 padding-top: 0 !important;
-                height: calc(0.47*50vw + #{$std-padding});
+                height: calc(0.88*100vw + #{$std-padding});
 				overflow: auto;
             }
             &-wrapper{
@@ -164,15 +182,16 @@ body{
     }
     &-right{
         display: inline-block;
-        width: calc(0.47*50vw);
+        width: 100%;
         vertical-align: top;
+		padding-bottom: 10*$std-padding;
     }
 	&-header{
 		margin-bottom: 1.5*$std-padding;
-		padding: 2*$std-padding 0;
+		padding: 4*$std-padding 0 1.5*$std-padding;
 		&.full{
 			margin-bottom: 0;
-			padding: 2.75% 0 3.5*$std-padding;
+			padding: 4*$std-padding 0 2.5*$std-padding;
 			background-color: darken($dark,3%);
 			opacity: 0.95;
 			position: sticky;
@@ -181,17 +200,45 @@ body{
 		}
 	}
     &-title{
-        font-size: 1.3em;
+        font-size: 1.2em;
         color: $white;
         span{
             color: $lighter-white;
             font-weight: 100;
         }
 		&.full{
-			font-size: 1.7em;
+			font-size: 1.3em;
 			font-weight: 700;
 		}
     }
+	@media screen and (min-width: 700px){
+		&-left{
+			width: calc(0.47*50vw);
+        	margin-right: calc(0.06*50vw);
+			.react-datepicker{
+				transform: scale(1.5);
+				&-popper{
+					height: calc(0.47*50vw + #{$std-padding});
+				}
+			}
+		}
+		&-right{
+			width: calc(0.47*50vw);
+			padding-bottom: 0;
+		}
+		&-header{
+			padding: 2*$std-padding 0;
+			&.full{
+				padding: 5*$std-padding 0 3.5*$std-padding;
+			}
+		}
+		&-title{
+			font-size: 1.3em;
+			&.full{
+				font-size: 1.7em;
+			}
+		}
+	}
 }
 
 // .customDatePickerWidth,
@@ -213,7 +260,8 @@ body{
 		text-transform: uppercase;
 		font-size: 0.8em;
 		letter-spacing: 1px;
-		padding: 1*$std-padding 1.5*$std-padding;
+		margin-left: 0.75*$std-padding;
+		padding: $std-padding 1.5*$std-padding;
 		&.true{
 			background-color: $black;
 			color: lighten($yellow,5%);
@@ -245,6 +293,8 @@ body{
 	@media screen and (min-width: 700px) {
 		&-button{
 			margin-left: 1.25*$std-padding;
+			padding: $std-padding 1.5*$std-padding;
+			font-size: 0.8em;
 		}
 	}
 }

@@ -19,7 +19,7 @@
         width: 100%;
         margin-bottom: 1.5*$std-padding;
         border-radius: $std-padding;
-		padding: 1.5*$std-padding 2*$std-padding;
+		padding: 2*$std-padding 2.5*$std-padding;
         background-color: darken($grey,5%);
         &.false{
             &:hover{
@@ -34,36 +34,33 @@
             }
         }
         &.full{
-            width: 32%;
-            margin-right:2%;
-            margin-bottom: 2%;
-            &:nth-child(3n){
-                margin-right: 0;
-            }
+            width: 100%;
+            margin-bottom: 3%;
         }
     }
     &-group{
         border-bottom: 0.5px solid $grey;
-        padding-bottom:1.5%;
-        margin-top: 4%;
+        padding-bottom:2%;
+        margin-top: 6%;
         &-title{
-            margin-bottom:2.5%;
-            font-size: 1.2em;
+            color: $lighter-white;
+            margin-bottom:3.5%;
+            font-size: 1em;
         }
     }
 
-    .create{
-        &-cta{
-            width: 100%;
-            padding: 12px 12px;
-            font-family: inherit;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-            border-radius: 6px;
-            background-color: #ffae00;
-        }
-    }
+    // .create{
+    //     &-cta{
+    //         width: 100%;
+    //         padding: 12px 12px;
+    //         font-family: inherit;
+    //         text-transform: uppercase;
+    //         letter-spacing: 0.5px;
+    //         font-weight: 600;
+    //         border-radius: 6px;
+    //         background-color: #ffae00;
+    //     }
+    // }
 
     &-details{
         display: flex;
@@ -85,7 +82,7 @@
     &-entity{
         display: block;
         text-transform: capitalize;
-        font-size: 1.1em;
+        font-size: 1em;
     }
     &-amount{
         display: block;
@@ -107,9 +104,48 @@
         }
         &-action{
             vertical-align: middle;
-            font-size: 0.7em;
+            font-size: 0.8em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+    }
+
+    @media screen and (min-width:700px) {
+        &-tile{
+            &.full{
+                width: 32%;
+                margin-right:2%;
+                margin-bottom: 2%;
+                &:nth-child(2n){
+                    margin-right: 2%;
+                }
+                &:nth-child(3n){
+                    margin-right: 0;
+                }
+            }
+        }
+        &-entity{
+            font-size: 1.1em;
+        }
+        &-amount{
+            font-size: 0.9em;
+            margin-top: 0.75*$std-padding;
+        }
+        &-status{
+            &-action{
+                font-size: 0.8em;
+            }
+        }
+        &-amount{
+            font-size: 0.9em;
+        }
+        &-group{
+            padding-bottom:1.5%;
+            margin-top: 4%;
+            &-title{
+                font-size: 1.2em;
+                margin-bottom: 2.5%;
+            }
         }
     }
 }
@@ -160,8 +196,8 @@
 .create{
     &-cta{
         width: 100%;
-        margin-top: 2*$std-padding;
-        padding: 1.5*$std-padding;
+        font-size: 1em;
+        padding: 2*$std-padding;
         font-family: inherit;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -169,6 +205,25 @@
         border-radius: 6px;
         background-color: $yellow;
         color: $white;
+        &-cont{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: $black;
+            padding: 1.5*$std-padding;
+        }
+    }
+    @media screen and (min-width: 700px) {
+        &-cta{
+            padding: 1.5*$std-padding;
+            &-cont{
+                position: static;
+                margin-top: 2*$std-padding;
+                background-color: transparent;
+                padding: 0;
+            }
+        }
     }
 }
 
@@ -187,20 +242,21 @@
         position: fixed;
         background-color: $white;
         color: $dark;
-        width: 30%;
-        top: 25%;
-        left: 35%;
-        right: 35%;
+        width: 88%;
+        top: 20%;
+        left: 6%;
+        right: 6%;
         max-height: 90%;
         overflow: scroll;
         border-radius: 1.25*$std-padding;
-        padding: 2.5% 3%;
+        padding: 8% 6%;
         z-index: 5;
+        font-size: 0.95em;
     }
     &-title{
-        margin-bottom: 8%;
+        margin-bottom: 10%;
         font-weight: 800;
-        font-size: 1.6em;
+        font-size: 1.4em;
         line-height: 1.2em;
         text-align: center;
         letter-spacing: -0.4px;
@@ -221,7 +277,7 @@
             span{
                 color: $grey;
                 display: inline-block;
-                font-size: 1rem;
+                font-size: 0.91em;
                 font-weight: 300;
                 padding: $std-padding 1.2*$std-padding;
                 background-color: $blue-grey;
@@ -324,6 +380,16 @@
     @media screen and (min-width: 700px) {
         &-modal{
             border-radius: 1.5*$std-padding;
+            width: 30%;
+            top: 25%;
+            left: 35%;
+            right: 35%;
+            padding: 2.5% 3%;
+            font-size: 1em;
+        }
+        &-title{
+            font-size: 1.6em;
+            margin-bottom: 8%;
         }
     }
 }
