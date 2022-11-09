@@ -18,7 +18,7 @@ class Dashboard extends Component {
     }
     
     getExpenses = async() => {
-        const response = await axios.create({baseURL: 'http://192.168.0.148:5000/'}).get('/expenses');
+        const response = await axios.create({baseURL: 'https://contra-backend.netlify.app/'}).get('/expenses');
         this.setState({expenses: response.data.expenses});
         this.setState({ fexpenses: this.state.expenses});
         this.filterExpenses();
@@ -69,7 +69,7 @@ class Dashboard extends Component {
     }
 
     statusChange = (identity) => {
-        axios.patch('http://localhost:5000/status/'+identity,{})
+        axios.patch('https://contra-backend.netlify.app/status/'+identity,{})
         .then(response => {
             this.getExpenses();
         })
@@ -109,7 +109,7 @@ class Dashboard extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const expense = {date: this.state.startDate, entity:this.state.entity, type:this.state.type, amount:this.state.amount, status:this.state.check};
-        axios.post('http://localhost:5000/', expense)
+        axios.post('https://contra-backend.netlify.app/', expense)
             .then(response => {
                 console.log(response.data);
             })
